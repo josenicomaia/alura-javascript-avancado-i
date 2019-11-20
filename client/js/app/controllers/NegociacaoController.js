@@ -24,13 +24,8 @@ class NegociacaoController {
     }
 
     _pegarNegociacao() {
-        const data = new Date(
-            ...this.R.data.value
-                .split('-')
-                .map((value, index) => parseInt(value) - index % 2));
-
         return new Negociacao(
-            data,
+            DateHelper.textoParaData(this.R.data.value),
             this.R.quantidade.value,
             this.R.valor.value);
     }
@@ -43,16 +38,12 @@ class NegociacaoController {
 
     _criarLinha(negociacao) {
         const tr = document.createElement('tr');
-        tr.append(this._criarCelula(this._pegarTextoData(negociacao.data)));
+        tr.append(this._criarCelula(DateHelper.dataParaTexto(negociacao.data)));
         tr.append(this._criarCelula(negociacao.quantidade));
         tr.append(this._criarCelula(negociacao.valor));
         tr.append(this._criarCelula(negociacao.volume));
 
         return tr;
-    }
-
-    _pegarTextoData(data) {
-        return data.getDate() + '/' + (data.getMonth() + 1) + '/' + data.getFullYear();
     }
 
     _criarCelula(campo) {
