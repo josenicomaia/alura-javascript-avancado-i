@@ -10,11 +10,14 @@ class NegociacaoController {
             quantidade: $('#quantidade'),
             valor: $('#valor'),
         };
+
+        this._negociacaoRepository = new NegociacaoRepository();
     }
 
     adicionar(event) {
         event.preventDefault();
-        this._adicionarNegociacao(this._pegarNegociacao());
+        const negociacao = this._negociacaoRepository.adicionar(this._pegarNegociacao());
+        this._adicionarNegociacao(negociacao);
         this._limparCampos();
         this.R.data.focus();
     }
