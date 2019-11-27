@@ -18,8 +18,7 @@ class NegociacaoController {
         event.preventDefault();
         const negociacao = this._negociacaoRepository.adicionar(this._pegarNegociacao());
         this._adicionarNegociacao(negociacao);
-        this._limparCampos();
-        this.R.data.focus();
+        this._limparFormulario();
     }
 
     _adicionarNegociacao(negociacao) {
@@ -33,10 +32,11 @@ class NegociacaoController {
             this.R.valor.value);
     }
 
-    _limparCampos() {
+    _limparFormulario() {
         this.R.data.value = '';
         this.R.quantidade.value = 1;
         this.R.valor.value = 0;
+        this.R.data.focus();
     }
 
     _criarLinha(negociacao) {
