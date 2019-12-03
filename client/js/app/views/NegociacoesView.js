@@ -3,7 +3,9 @@ class NegociacoesView {
         this._elemento = elemento;
     }
 
-    _template() {
+    _template(negociacaoRepository) {
+        let total = 0;
+
         return `
             <table class="table table-hover table-bordered">
                 <thead>
@@ -16,36 +18,31 @@ class NegociacoesView {
                 </thead>
                 
                 <tbody>
+                    ${negociacaoRepository.negociacoes.map(negociacao => {
+                        total += negociacao.volume;
+                        
+                        return `
+                            <tr>
+                                <td>${DateHelper.dataParaTexto(negociacao.data)}</td>
+                                <td>${negociacao.quantidade}</td>
+                                <td>${negociacao.valor}</td>
+                                <td>${negociacao.volume}</td>
+                            </tr>
+                        `;
+                    }).join('')}
                 </tbody>
                 
                 <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>${negociacaoRepository.negociacoes.reduce((total, negociacao) => total + negociacao.volume, 0.0)}</td>
+                    </tr>
                 </tfoot>
             </table>
         `;
     }
 
-    adicionarNegociacao(negociacao) {
-        this._elemento.querySelector('tbody').append(this._criarLinha(negociacao));
-    }
-
-    _criarLinha(negociacao) {
-        const tr = document.createElement('tr');
-        tr.append(this._criarCelula(DateHelper.dataParaTexto(negociacao.data)));
-        tr.append(this._criarCelula(negociacao.quantidade));
-        tr.append(this._criarCelula(negociacao.valor));
-        tr.append(this._criarCelula(negociacao.volume));
-
-        return tr;
-    }
-
-    _criarCelula(campo) {
-        const td = document.createElement('td');
-        td.textContent = campo;
-
-        return td;
-    }
-
-    render() {
-        this._elemento.innerHTML = this._template();
+    render(negociacaoRepository) {
+        this._elemento.innerHTML = this._template(negociacaoRepository);
     }
 }

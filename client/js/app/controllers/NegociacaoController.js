@@ -14,13 +14,13 @@ class NegociacaoController {
 
         this._negociacaoRepository = new NegociacaoRepository();
         this._negociacoesView = new NegociacoesView(this.R.negociacoesView);
-        this._negociacoesView.render();
+        this._negociacoesView.render(this._negociacaoRepository);
     }
 
     adicionar(event) {
         event.preventDefault();
-        const negociacao = this._negociacaoRepository.adicionar(this._pegarNegociacao());
-        this._negociacoesView.adicionarNegociacao(negociacao);
+        this._negociacaoRepository.adicionar(this._pegarNegociacao());
+        this._negociacoesView.render(this._negociacaoRepository);
         this._limparFormulario();
     }
 
