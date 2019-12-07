@@ -12,4 +12,8 @@ class NegociacaoRepository {
     get negociacoes() {
         return [].concat(this._negociacoes);
     }
+
+    esvaziar() {
+        this._negociacoes = [];
+    }
 }
